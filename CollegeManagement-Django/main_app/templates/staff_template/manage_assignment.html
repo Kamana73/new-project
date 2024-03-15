@@ -1,0 +1,183 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+    <style>
+
+        .assignment-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .assignment-item {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .assignment-number {
+            font-size: 1.2rem;
+            color: #007bff;
+            margin-right: 10px;
+        }
+
+        .assignment-details {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .due-date {
+            color: #007bff;
+        }
+
+        .action-buttons {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        .edit-btn,
+        .delete-btn,
+        .submitted-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            margin-right: 10px;
+            border-radius: 5px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .submitted-btn {
+            background-color: #28a745;
+        }
+
+        .submitted-btn:hover {
+            background-color: #218838;
+        }
+
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .confirmation-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .confirm-btn, .cancel-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .confirm-btn {
+            background-color: #dc3545;
+            color: #fff;
+            margin-right: 10px;
+        }
+
+        .cancel-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+
+    <!-- Display a list of assignments for staff -->
+    <div class="assignment-list">
+        {% if assignments %}
+            {% for assignment in assignments %}
+                <div class="assignment-item">
+                    <span class="assignment-number">{{ forloop.counter }}.</span>
+                    <div class="assignment-details">
+                        <h3>{{ assignment.title }}</h3>
+                        <p>{{ assignment.description }}</p>
+                        <p>Subject: <span class="due-date">{{ assignment.subject }}</span></p>
+                        <p>Due Date: <span class="due-date">{{ assignment.due_date }}</span></p>
+                        <div class="action-buttons">
+                            <a href="{% url 'manage_assignment_detail' assignment.id %}" class="edit-btn">Edit</a>
+                            <button onclick="showConfirmationModal({{ assignment.id }})" class="delete-btn">Delete</button>
+                            <a href="{% url 'view_submitted_assignments' assignment.id %}" class="submitted-btn">Submitted Assignments</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="assignment-item">
+                <h3>Assignments aren't assigned yet.<b style="color: #00b3ff"> Do you want to assign one?</b></h3>
+                <a href="{% url 'create_assignment' %}" class="submitted-btn">Assign Assignment</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="confirmation-modal">
+        <p class="confirmation-text">Do you want to delete this assignment?</p>
+        <button class="confirm-btn" onclick="confirmDeletion()">Yes</button>
+        <button class="cancel-btn" onclick="hideConfirmationModal()">No</button>
+        <input type="hidden" id="assignmentIdInput">
+    </div>
+
+    <script>
+        // JavaScript functions to show/hide modal and confirm deletion
+        function showConfirmationModal(assignmentId) {
+            document.getElementById('confirmationModal').style.display = 'block';
+            document.getElementById('assignmentIdInput').value = assignmentId;
+        }
+
+        function hideConfirmationModal() {
+            document.getElementById('confirmationModal').style.display = 'none';
+            document.getElementById('assignmentIdInput').value = '';
+        }
+
+        function confirmDeletion() {
+            // Get assignment ID from the hidden input
+            var assignmentId = document.getElementById('assignmentIdInput').value;
+            console.log('Assignment ID (Confirm Deletion):', assignmentId);
+            // Redirect to delete_assignment view with the assignment ID
+            window.location.href = `/delete_assignment/${assignmentId}/`;
+        }
+    </script>
+{% endblock content %}

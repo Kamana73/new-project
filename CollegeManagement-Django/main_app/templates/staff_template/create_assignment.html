@@ -1,0 +1,84 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+<style>
+    .assignment-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    button.create-btn {
+        display: block;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+
+    button.create-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!-- Form to create an assignment for staff -->
+<div class="assignment-form">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">Title:</label>
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Description:</label>
+            {{ form.description }}
+            {{ form.description.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.due_date.id_for_label }}">Due Date:</label>
+            {{ form.due_date }}
+            {{ form.due_date.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.course.id_for_label }}">Course:</label>
+            {{ form.course }}
+            {{ form.course.errors }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.subject.id_for_label }}">Subject:</label>
+            {{ form.subject }}
+            {{ form.subject.errors }}
+        </div>
+        <button type="submit" class="create-btn">Create Assignment</button>
+    </form>
+</div>
+{% endblock content %}

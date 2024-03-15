@@ -1,0 +1,69 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <!-- /.card -->
+                <div class="card card-dark">
+                    <div class="card-header"><h3 class="card-title">{{ page_title }}</h3></div>
+                    <div class="table p-2">
+                        <table id="results" class="table table-bordered"> <!-- Give your table an ID -->
+                            <tr>
+                                <th>ID</th>
+                                <th>Subject</th>
+                                <th>Test</th>
+                                <th>Exam</th>
+                                <th>Total</th>
+                            </tr>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ result.subject }}</td>
+                                <td>{{ result.test }}</td>
+                                <td>{{ result.exam }}</td>
+                                <td>{{ result.test|add:result.exam }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Add the following button for download -->
+                <button id="downloadButton" class="btn btn-primary">Download Results</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // JavaScript to trigger download when the button is clicked
+    document.getElementById('downloadButton').addEventListener('click', function () {
+        const table = document.getElementById('results');
+        const rows = Array.from(table.querySelectorAll('tr'));
+
+        // Convert table rows to an array of arrays (2D array)
+        const data = rows.map(row => Array.from(row.children).map(cell => cell.textContent));
+
+        // Convert 2D array to CSV format
+        const csvContent = data.map(row => row.join(',')).join('\n');
+
+        // Create a Blob and set download link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'results.csv'; // You can change the file name and extension
+
+        // Trigger download
+        link.click();
+    });
+</script>
+
+{% endblock content %}

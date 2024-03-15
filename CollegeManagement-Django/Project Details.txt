@@ -1,0 +1,9 @@
+**School Pro Management System Requirements**
+- Install the Requirements: pip install -r requirements.txt
+- Open xammp and start mysql server and configure the empty database in shell and connect to settings.py database section
+- Then, make database migrations: python manage.py makemigrations
+- python manage.py migrate
+- And finally, run the application: python manage.py run server
+
+
+**For Admin Login Credentials, please create one using superuser!**

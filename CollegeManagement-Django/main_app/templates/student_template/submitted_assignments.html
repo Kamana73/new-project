@@ -1,0 +1,27 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{ page_title }}{% endblock page_title %}
+
+{% block content %}
+
+<!-- Display a table of submitted assignments for students -->
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Submission Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submitted_assignment in assignments_submitted %}
+            <tr>
+                <td>{{ submitted_assignment.assignment.title }}</td>
+                <td>{{ submitted_assignment.assignment.description }}</td>
+                <td>{{ submitted_assignment.submission_date }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

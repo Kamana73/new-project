@@ -1,0 +1,20 @@
+# Connect to mysql database using xammp in django
+
+Step 1: Install Xammp and start Mysql and Apache 
+Step 2: Open Shell and type "mysql -u root -h localhost"
+Step 3: create database school_pro;
+Step 4: Create new user 
+	create user 'Kamana'@'127.0.0.1' identified by 'Kamana123';
+
+Step 5 : Grant Privileges:
+	GRANT ALL PRIVILEGES ON *.* TO 'Kamana'@'127.0.0.1';
+
+Step 6: Flush privileage:
+	flush privileges;
+
+
+SHOW GRANTS FOR 'Kamana'@'127.0.0.1';
+SHOW GRANTS FOR 'Kamana'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON *.* TO 'Kamana'@'127.0.0.1' IDENTIFIED BY 'Kamana123' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+python manage.py runserver

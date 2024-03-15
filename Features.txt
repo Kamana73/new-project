@@ -1,0 +1,30 @@
+Admin :
+1. CRUD operation for 
+courses - done
+semester - done
+module - done
+teacher - done
+students - done
+
+
+2. Assign course and module to the teacher according to them
+
+Teacher: 
+
+1. Take attendace - done
+2. Assigned Assignment - done
+3. Update own profile -done
+4. Make accouncemnet for students - done
+5. Prepare Results - done
+6. online class arrange for the students - done
+
+Students: 
+1. view attendance - done
+2. view assignment- done
+3. download result - done
+4. submit assignment- done
+5. view own results - done
+6. view announcement - done
+7. Reply announcemnet -done
+8. Enrollment - done
+9. Attain online class- done
